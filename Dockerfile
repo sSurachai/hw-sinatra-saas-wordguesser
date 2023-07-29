@@ -4,4 +4,4 @@ WORKDIR /usr/src/app
 COPY Gemfile* ./
 RUN gem install bundler && bundle install
 COPY ./ ./
-CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["bundle", "exec", "rerun", "--force-polling", "--","rackup", "-o", "0.0.0.0", "--port", "3000"]
