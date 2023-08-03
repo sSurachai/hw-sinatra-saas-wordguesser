@@ -7,20 +7,65 @@ class WordGuesserGame
 
   def initialize(word)
     @word = word
+    @guess = ""
+    @wrong_guess = ""
+    @display = ""
+    word.length.times do @display += "-" end
+    @try = 0
   end
 
   def word()
     @word
   end
 
-  def guess()
+  def guesses()
+    @guess
   end
 
   def wrong_guesses()
+    @wrong_guess
   end
 
-  def guesses(letter)
-    
+  def word_with_guesses()
+    @display
+  end
+
+  def guess(guess)
+    raise ArgumentError.new('Null') if guess == nil
+    raise ArgumentError.new('Length equal 0') if guess.length == 0
+    raise ArgumentError.new('Not a Letter') if guess =~ /\W/
+    guess.downcase!
+    if @word.include?(guess)
+      if @guess.include?(guess)
+        return false
+      else
+        i = 0
+        word.length.times do
+          if word[i] == guess
+            @display[i] = guess
+          end
+          i += 1
+        end
+        @guess = guess
+      end
+    else
+      if @wrong_guess.include?(guess)
+        return false
+      else
+        @wrong_guess = guess
+      end
+    end
+    @try += 1
+  end
+
+  def check_win_or_lose()
+    if @try >= 7
+      return :lose
+    elsif @word == @display
+      return :win
+    else
+      return :play
+    end
   end
 
   # You can test it by installing irb via $ gem install irb
